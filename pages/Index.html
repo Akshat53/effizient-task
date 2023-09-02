@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <!-- ... (your head content) ... -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body style="background-color: #08595c;">
+  <div class="container" style="width: 50%;">
+    <form id="myForm">
+        <div class="form-group" style="background-color: white; height: 100px; ">
+            <label for="exampleFormControlInput1">Recipient's Email Address</label>
+            <input type="email" class="form-control" id="recipientEmail" name="email" placeholder="recipient@example.com">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Phone</label>
+            <input type="text" class="form-control" id="contact" name="contact" placeholder="123-456-7890">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="John Doe">
+        </div>
+        <button class="btn btn-primary" type="button" onclick="submitForm()">Submit</button>
+    </form>
+</div>
+
+   
+    <script>
+     
+     function submitForm() {
+    const formData = {
+        email: document.getElementById('recipientEmail').value,
+        contact: document.getElementById('contact').value,
+        name: document.getElementById('name').value
+    };
+
+    // Make an AJAX POST request to the /api/form endpoint to save the data
+    fetch('http://localhost:3000/api/form', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Display a success message
+            
+            // Now trigger the email API
+            sendEmail(formData);
+        } else {
+            alert('Error: ' + data.message); // Display an error message
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while submitting the form.');
+    });
+}
+
+function sendEmail(formData) {
+    // Make an AJAX POST request to the /api/sendmail endpoint to trigger the email API
+    fetch('http://localhost:3000/api/sendmail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message); // Display a success message
+        } else {
+            alert(data.message); // Display an error message
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while sending the email.');
+    });
+}
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
