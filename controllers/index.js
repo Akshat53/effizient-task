@@ -7,7 +7,7 @@ exports.formdata = (req, res) => {
     console.log({ data });
     db.query(`INSERT INTO userdata SET ?`, data, (err, dbResult) => {
       if (err) {
-        console.error(err);
+        console.error(err); // Log the MySQL error
         res.status(500).json({
           success: false,
           error: "Database error",
@@ -30,9 +30,6 @@ exports.formdata = (req, res) => {
     });
   }
 };
-
-
-
 exports.getFormDataById = (req, res) => {
   const userId = req.params.id; // Assuming you're passing the ID as a URL parameter
 

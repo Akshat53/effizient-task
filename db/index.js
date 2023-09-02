@@ -5,6 +5,8 @@ const db = mysql.createConnection({
   user: 'root',
   password: process.env.DB_PASSWORD,
   database: "task",
+  
 });
+
 
 module.exports = db

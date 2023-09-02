@@ -13,24 +13,46 @@ var sendSmtpEmail = new Brevo.SendSmtpEmail();
 exports.sendMail = async (req, res) => {
     try {
         const formData = req.body;
-        
-        // Extract form fields
-        const recipientEmail = formData.email; // Extract the recipient's email from the form
 
-        sendSmtpEmail.sender = { "name": "Akshat", "email": "akshat.singh@gmail.com" };
+        // Extract form fields
+        const recipientEmail = formData.email;
+
+        // Set sender and recipient
+        sendSmtpEmail.sender = { "name": "Form Data Response : Team Effizient", "email": "no-reply@effizient.ca" }; // Change to your sender's name and email
         sendSmtpEmail.to = [{ "name": "Recipient Name", "email": recipientEmail }]; // Use the recipient's email
-        sendSmtpEmail.subject = "Form Data";
-        
+
+        // Set email subject
+        sendSmtpEmail.subject = "Statement of Purpose Submission"; // Change to your desired subject
+
         // Construct the email content with form data
         sendSmtpEmail.htmlContent = `<html><body>
             Email: ${formData.email}<br>
-            Phone: ${formData.contact}<br>
-            Name: ${formData.name}<br>
+            Age: ${formData.age}<br>
+            Full Name: ${formData.name}<br>
+            Highest Level of Education: ${formData.educationLevel}<br>
+            Education Institute: ${formData.institute}<br>
+            Study Field: ${formData.study}<br>
+            Work Experience: ${formData.workExperience}<br>
+            Admission Institute: ${formData.admissionInstitute}<br>
+            Program of Study: ${formData.programOfStudy}<br>
+            Applying From: ${formData.applyingFrom}<br>
+            Future Goals: ${formData.futureGoals}<br>
+            Listening Score: ${formData.listeningScore}<br>
+            Reading Score: ${formData.readingScore}<br>
+            Speaking Score: ${formData.speakingScore}<br>
+            Writing Score: ${formData.writingScore}<br>
+            Tuition Payment: ${formData.tuitionPayment}<br>
+            Tuition Fee: ${formData.tuitionFee}<br>
+            GIC: ${formData.gic}<br>
+            GIC Amount: ${formData.gicAmount}<br>
         </body></html>`;
 
-        sendSmtpEmail.replyTo = { "name": "Akshat", "email": "akshat.singh@gmail.com" };
+        // Set reply-to email
+        sendSmtpEmail.replyTo = { "name": "Your Name", "email": "your_email@example.com" }; // Change to your reply-to name and email
+
+        // Set headers and tags as needed
         sendSmtpEmail.headers = { "X-Mailin-custom": `partner-key:${process.env.BREVO_API_KEY}|api-key:${process.env.BREVO_API_KEY}` };
-        sendSmtpEmail.tags = ["task"];
+        sendSmtpEmail.tags = ["task"]; // Modify or add tags as needed
 
         // Send the email
         const emailResponse = await transacMailApi.sendTransacEmail(sendSmtpEmail);
@@ -38,13 +60,13 @@ exports.sendMail = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "Your message is received. Team will contact you soon!"
+            message: "Your form data is received. You will receive an email soon."
         });
     } catch (error) {
         console.error('Error sending email:', error);
         res.status(500).json({
             success: false,
-            message: "Error Occurred. Can not contact our team!"
+            message: "Error occurred while sending the email."
         });
     }
 };
