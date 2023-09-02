@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const db  = require("./db");
 const cors = require("cors");
+const path = require("path");
 dotenv.config({ path: "./.env" });
 
 
@@ -10,12 +11,17 @@ db.connect((err) => {
 });
 
 const app = express();
+const publicDirectory = path.join(__dirname, './asset');
+app.use(express.static(publicDirectory));
+app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 app.enable("trust proxy");
 app.use(cors());
 
-app.get("/", (req, res) => res.send("Hello"));
+app.set('view engine', 'hbs');
+
+app.use('/', require('./routes/view'));
 app.use("/api", require("./routes"));
 
 
