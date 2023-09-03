@@ -11,9 +11,9 @@ dotenv.config({ path: "./.env" });
 // });
 
 const app = express();
-const publicDirectory = path.join(__dirname, './asset');
+const publicDirectory = path.join(__dirname, './assets');
 app.use(express.static(publicDirectory));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 app.enable("trust proxy");
