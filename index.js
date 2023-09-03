@@ -6,9 +6,9 @@ const path = require("path");
 dotenv.config({ path: "./.env" });
 
 
-db.connect((err) => {
-  err ? console.log(err) : console.log("db connected");
-});
+// db.connect((err) => {
+//   err ? console.log(err) : console.log("db connected");
+// });
 
 const app = express();
 const publicDirectory = path.join(__dirname, './asset');
